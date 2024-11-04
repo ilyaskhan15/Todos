@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404
-from .models import Todos
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import TodosSerializer
+from rest_framework.response import Response
 from rest_framework import status
+from .models import Todos
+from .serializers import TodosSerializer
 
 @api_view(['GET', 'POST'])
 def todos_list(request):
