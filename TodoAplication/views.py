@@ -18,11 +18,21 @@ def todos_list(request):
         todos = serializer.save(user=request.user)
         return Response(TodosSerializer(todos).data, status=status.HTTP_201_CREATED)
 
-@api_view(['GET','PUT'])
+@api_view(['GET','PUT', 'DELETE'])
 def todos_detail(request, pk):
     todos = get_object_or_404(Todos,pk=pk)
-    serializer = TodosSerializer(todos)
-    return Response(serializer.data)
+    if request.method == "GET":
+        serializer = TodosSerializer(todos)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = TodosSerializer(todos, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    elif request.method == "DELETE":
+        todos.delete()
+        return Response('ok', status=status.HTTP_204_NO_CONTENT)
+
 
 
 
