@@ -1,8 +1,11 @@
-from django.urls import path
-from .views import todos_list,todos_detail
+from django.urls import path, include
+from .views import TodosViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'', TodosViewSet, basename='todos')
 
 
 urlpatterns = [
-    path('', todos_list),
-    path('<pk>/', todos_detail),
+    path('', include(router.urls)),
 ]
